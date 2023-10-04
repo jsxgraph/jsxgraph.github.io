@@ -1,2 +1,4 @@
-# jsxgraph.github.io
-JSXGraph projects
+# JSXGraph projects
+
+- Graph theory
+- JSXGraphAuthor
