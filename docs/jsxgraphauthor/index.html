@@ -1,0 +1,1227 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css'/>
+    <link rel="stylesheet" type="text/css" href="resources/sketchofont.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <script src='https://cdn.jsdelivr.net/npm/jsxgraph@1.4.6/distrib/jsxgraphcore.js' type='text/javascript'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.5.0/math.min.js"></script>
+    <script type="text/javascript" src="core.js"></script>
+    <script type="text/javascript" src="help.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+
+
+    <style>
+        .active {
+            background-color: #e3f2fd; /* Changes Color of the active element in Dropdown menu */
+        }
+    </style>
+
+    <style>
+        /* Hide the standard Dropdwon arrow */
+        .dropdown-toggle::after {
+            display: none;
+        }
+    </style>
+
+    <style type="text/css">
+        /*Create own dropdown-submenu and extend bootstrap */
+        .dropdown-menu li {
+            position: relative;
+        }
+
+        .dropdown-menu .dropdown-submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: -7px;
+            min-width: 10rem;
+        }
+
+        .dropdown-menu>li:hover>.dropdown-submenu {
+            display: block;
+        }
+        /* Set submenu to the left, for better compability with resizing */
+        .dropdown-menu-end .dropdown-submenu {
+            left: auto;
+            right: 100%;
+        }
+    </style>
+
+
+
+
+
+</head>
+<body>
+
+
+<div class = "container-md">
+
+    <!-- Modal showCodeModal-->
+    <div class="modal fade" id="showCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <p id="showText" class="text-center m-0"> </p>
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="showCodeTextModal" class="text-center m-0"> </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal regularPolygonModal-->
+    <div class="modal fade" id="regularPolygonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <p id="regularPolygonModalText" class="text-center m-0"> </p>
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValuePolygon" class="form-control" placeholder="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveValuePolygon()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal textModal-->
+    <div class="modal fade" id="textModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <p id="textModalText" class="text-center m-0"> </p>
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValueText" class="form-control" placeholder="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveValueText()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Modal anglevModal-->
+    <div class="modal fade" id="anglevModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                    <p id="anglevModalText" class="text-center m-0"> </p>
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValueAngle" class="form-control" placeholder="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveValue()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal fixedSegmentModal-->
+    <div class="modal fade" id="fixedSegmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <p id="fixedSegmentModalText" class="text-center m-0"> </p>
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValueSegment" class="form-control" placeholder="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveValueSegment() " data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal circlerModal-->
+    <div class="modal fade" id="circlerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <p id="circlerModalText" class="text-center m-0"> </p>
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValueCircler" class="form-control" placeholder="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveValueCircler()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal functionModal-->
+    <div class="modal fade" id="functionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <p id="functionModalText" class="text-center m-0"> </p>
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValueFunction" class="form-control" placeholder="Valid function">
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValueFunctionLeft" class="form-control" placeholder="Enter a number for the left boundary">
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValueFunctionRight" class="form-control" placeholder="Enter a number for the right boundary">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveValueFunction()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal boundingBoxModal-->
+    <div class="modal fade" id="boundingBoxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <p id="boundingBoxModalText" class="text-center m-0"> </p>
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" id="inputValuex1" placeholder="Enter a number for x1 (negative)">
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValuex2" class="form-control" placeholder="Enter a number for x2 (positive)">
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="inputValuey1" class="form-control" placeholder="Enter a number for y1 (positive)">
+                </div>
+
+                <div class="modal-body">
+                    <input type="text" id="inputValuey2" class="form-control" placeholder="Enter a number for y2 (negative)">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveValueBoundingBox()" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<div
+     class = "container-md"
+     style=" background:#eeeeee; border: #999999 2px solid; padding: 3px 3px 3px 3px; margin-left:auto; margin-right:auto; background-color: #e3f2fd;">
+
+
+<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="resources/logo_jsxgraph.png" width="30" height="30" alt="">
+                <img src="resources/jsxgraph_1_0.png" width=15% height=auto; alt="">
+            </a>
+            <button  id="_BACK_" class="btn btn-sm btn-outline-secondary" type="button">
+                <div class="sketcho sketcho-arrow-arc-left" width="16" height="16"> </div>
+            </button>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <p id= "toolsText" class = "text-center m-0 d-inline">  </p>
+                            <i class="fas fa-angle-down dropdown-icon ml-2 d-inline"></i>
+                        </a>
+
+                        <ul class="dropdown-menu">
+
+                            <li id="boundingBox">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#"   data-bs-toggle="modal" data-bs-target="#boundingBoxModal">
+                                    <div class="sketcho sketcho-board-bounds" width="16" height="16"> </div>
+                                    <p id= "boundingBoxTEXT"  class="text-center m-0"> </p>
+                                </a>
+                            </li>
+
+                            <li id="arrow">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                    <div class="sketcho sketcho-cursor" width="16" height="16"> </div>
+                                    <p id= "arrowTEXT"  class="text-center m-0"> </p>
+                                </a>
+                            </li>
+
+                            <li id="sketchNormal">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                    <div class="sketcho sketcho-curve" width="16" height="16">  </div>
+                                    <p id= "sketchNormalTEXT" class="text-center m-0" >  </p>
+                                </a>
+                            </li>
+
+                            <li id="sketchPolynomial">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                    <div class="sketcho sketcho-sketch-graph" width="16" height="16">  </div>
+                                    <p id= "sketchPolynomialTEXT" class="text-center m-0" >  </p>
+                                </a>
+                            </li>
+
+                            <li id="erase">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                <div class="sketcho sketcho-trash" width="16" height="16">  </div>
+                                    <p id= "eraseTEXT" class="text-center m-0" >  </p>
+                                </a>
+                            </li>
+
+
+
+                            <li id="functionPlot">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#functionModal">
+                                    <div class="sketcho sketcho-function" width="16" height="16">  </div>
+                                    <p id= "functionPlotTEXT" class="text-center m-0">  </p>
+                                </a>
+
+                            </li>
+
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li id="_DOWNLOAD_TEXT_">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                    <div class="sketcho sketcho-rect-out" width="16" height="16"> </div>
+                                    <p  id= "downloadCodeText" class="text-center m-0">  </p>
+                                </a>
+                            </li>
+
+                            <li id="_DOWNLOAD_SVG_">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                    <div class="sketcho sketcho-code-svg" width="16" height="16"> </div>
+                                    <p  id= "downloadSVGText" class="text-center m-0">  </p>
+                                </a>
+                            </li>
+
+                            <li id="_DOWNLOAD_PNG_">
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                    <div class="sketcho sketcho-code-png" width="16" height="16"> </div>
+                                    <p  id= "downloadPNGText" class="text-center m-0"> </p>
+                                </a>
+                            </li>
+
+                            <li >
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#"  data-bs-toggle="modal" data-bs-target="#showCodeModal">
+                                    <div class="sketcho sketcho-code-js " width="16" height="16"> </div>
+                                    <p id= "showCodeText" class="text-center m-0">  </p>
+                                </a>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+                </ul>
+
+
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                            <p id= "drawText" class = "text-center m-0 d-inline">  </p>
+                            <i class="fas fa-angle-down dropdown-icon ml-2 d-inline"></i>
+
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+
+
+                            <li>    <a class="dropdown-item" href="#">
+                                <i class="fas fa-angle-left dropdown-icon d-inline "></i>
+                                    <p id= "pointDropdownText" class="text-left m-0 d-inline" >  </p>
+                                    </a>
+                                <ul class="dropdown-menu dropdown-submenu dropdown-menu-end">
+
+                                    <li id="pointCommand">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-point" width="16" height="16">    </div>
+                                            <p id= "pointCommandTEXT" class="text-center m-0">  </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="intersectionCommand">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-intersection-line-line" width="16" height="16">   </div>
+                                            <p id= "intersectionCommandTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+
+                                    <li id="midpointCommand">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-midpoint" width="16" height="16">   </div>
+                                            <p id= "midpointCommandTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+
+
+                            <li> <a class="dropdown-item" href="#"> <i class="fas fa-angle-left dropdown-icon d-inline "></i> <p id= "lineDropdownText" class="text-left m-0 d-inline" >  </p>  </a>
+                                <ul class="dropdown-menu dropdown-submenu dropdown-menu-end">
+
+
+                                    <li id="lineNormal">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-line-points" width="16" height="16">   </div>
+                                            <p id= "lineNormalTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="hline">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-ray" width="16" height="16">    </div>
+                                            <p id= "hlineTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="segmentNormal">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-segment" width="16" height="16">   </div>
+                                            <p id= "segmentNormalTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="fixedSegment">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#fixedSegmentModal">
+                                            <div class="sketcho sketcho-segment-x" width="16" height="16">   </div>
+                                            <p id= "fixedSegmentTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="vectorNormal">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-vector" width="16" height="16">  </div>
+                                            <p id= "vectorNormalTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li><hr class="dropdown-divider"></li>
+
+
+
+                                    <li id="parallelNormal">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-parallel-point" width="16" height="16">     </div>
+                                            <p id= "parallelNormalTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="perpendicularNormal">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-normal-point" width="16" height="16">  </div>
+                                            <p id= "perpendicularNormalTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+
+
+                                    <li id="angleBisector">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-bisector" width="16" height="16">    </div>
+                                            <p id= "angleBisectorTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+
+                                    <li id="segmentSymmetry">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-perpendicular-bisector" width="16" height="16">    </div>
+                                            <p id= "segmentSymmetryTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+
+
+
+                                </ul>
+                            </li>
+
+
+
+
+                            <li> <a class="dropdown-item" href="#" >
+                                <i class="fas fa-angle-left dropdown-icon d-inline "></i>
+                                <p id= "circleDropdownText" class="text-left m-0 d-inline" >  </p>  </a>
+
+                                <ul class="dropdown-menu dropdown-submenu dropdown-menu-end">
+
+
+                                    <li id="circleNormal">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-circle-center-point" width="16" height="16">  </div>
+                                            <p id= "circleNormalTEXT" class="text-center m-0" > </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="circle3">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-circle-three-points" width="16" height="16"> </div>
+                                            <p id= "circle3TEXT" class="text-center m-0" > </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="circler">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#circlerModal">
+                                            <div class="sketcho sketcho-circle-radius" width="16" height="16"> </div>
+                                            <p id= "circlerTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li><hr class="dropdown-divider"></li>
+
+                                    <li id="polygonCommand">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-polygon" width="16" height="16">   </div>
+                                            <p id= "polygonCommandTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+
+
+                                    <li id="regularPolygon">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#regularPolygonModal">
+                                            <div class="sketcho sketcho-regpol" width="16" height="16">    </div>
+                                            <p id= "regularPolygonTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+
+                                    <li><hr class="dropdown-divider"></li>
+
+                                    <li id="conicSection5">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-ellipse" width="16" height="16">   </div>
+                                            <p id= "conicSection5TEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+
+
+
+                            <li> <a class="dropdown-item" href="#"> <i class="fas fa-angle-left dropdown-icon d-inline "></i> <p id= "angleDropdownText" class="text-left m-0 d-inline" >  </p>   </a>
+                                <ul class="dropdown-menu dropdown-submenu dropdown-menu-end">
+
+
+                                    <li id="angleNormal">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-angle" width="16" height="16"> </div>
+                                            <p id= "angleNormalTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="angleSixty">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-angle-60" width="16" height="16"> </div>
+                                            <p id= "angleSixtyTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="angleV">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#anglevModal">
+                                            <div class="sketcho sketcho-angle-alpha" width="16" height="16"> </div>
+                                            <p id= "angleVTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="angleS">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-angle-label" width="16" height="16"> </div>
+                                            <p id= "angleSTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+
+
+
+                            <li> <a class="dropdown-item" href="#"> <i class="fas fa-angle-left dropdown-icon d-inline "></i> <p id= "transformDropdownText" class="text-left m-0 d-inline" >  </p>  </a>
+                                <ul class="dropdown-menu dropdown-submenu dropdown-menu-end">
+
+                                    <li id="symmetryNormal">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-reflection-point-point" width="16" height="16">   </div>
+                                            <p id= "symmetryNormalTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="lineSymmetry">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-reflection-line-point" width="16" height="16">   </div>
+                                            <p id= "lineSymmetryTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="translationCommand">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-point-translate" width="16" height="16">  </div>
+                                            <p id= "translationCommandTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+
+
+
+                                </ul>
+                            </li>
+
+
+                            <li> <a class="dropdown-item" href="#">  <i class="fas fa-angle-left dropdown-icon d-inline "></i> <p id= "textDropdownText" class="text-left m-0 d-inline" >  </p>  </a>
+                                <ul class="dropdown-menu dropdown-submenu dropdown-menu-end">
+
+                                    <li id="distance">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-length" width="16" height="16">     </div>
+                                            <p id= "distanceTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="textCommand">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#textModal">
+                                            <div class="sketcho sketcho-text" width="16" height="16">   </div>
+                                            <p id= "textCommandTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                    <li id="area">
+                                        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                            <div class="sketcho sketcho-ruler-triangle-area" width="16" height="16">    </div>
+                                            <p id= "areaTEXT" class="text-center m-0"> </p>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+
+                        </ul>
+                    </li>
+                </ul>
+
+
+
+
+
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                            <p id= "helpText" class = "text-center m-0 d-inline">  </p>
+                            <i class="fas fa-angle-down dropdown-icon ml-2 d-inline"></i>
+
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+
+                            <li>
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+                                    <i class="fas fa-angle-left dropdown-icon d-inline "></i>
+                                    <div class="sketcho sketcho-flag" width="16" height="16"> </div>
+                                    <p id= "languageDropdownText"  class="text-left m-0 d-inline" >  </p>
+                                </a>
+                                <ul class="dropdown-menu dropdown-submenu">
+
+                                    <li>
+                                        <div class="form-check  ms-2">
+                                        <input class="form-check-input language-radio" type="radio" name="language" value="en" id="RadioEN" checked>
+                                        <label class="form-check-label" for="RadioEN">
+                                            <p id= "languageEnText" class = "text-center m-0 d-inline">>
+                                        </label>
+                                    </div>
+
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <div class="form-check  ms-2">
+                                            <input class="form-check-input language-radio" type="radio" name="language" value="slo" id="RadioSLO" >
+                                            <label class="form-check-label" for="RadioSLO">
+                                                <p id= "languageSloText"  class = "text-center m-0 d-inline">>
+                                            </label>
+                                        </div>
+
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <div class="form-check  ms-2" >
+                                            <input class="form-check-input language-radio" type="radio" name="language" value="ger" id="RadioGER" >
+                                            <label class="form-check-label" for="RadioGER">
+                                                <p id= "languageGerText" class = "text-center m-0 d-inline">>
+                                            </label>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex gap-2 align-items-center" href="https://jsxgraph.uni-bayreuth.de/wp/index.html">
+                                    <div class="sketcho sketcho-balance" width="16" height="16"> </div>
+                                    <p id= "legalDropdownText"  class="text-center m-0">  </p>
+                                </a>
+
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+        </div>
+    </nav>
+
+    <div id="icons" align="left" width="100%" ></div>
+
+    <div class = "container d-flex align-items-center justify-content-center" style="background-color:#e3f2fd">
+        <div id="box" class="jxgbox" style= "width:100%; aspect-ratio:1/1;  margin:0 auto; " ></div>
+
+    </div >
+    </div>
+
+
+
+<script type="text/javascript">
+    JXG.Options.board.showCopyright = true;
+    JXG.Options.point.showInfoBox = true;
+    var backwardIndex = [];
+
+    var jsxgraphauthor = new JSXGraphAuthor("box", true); // box is id of DOM containter (div) for jxgbox
+    jsxgraphauthor.language = "en";
+
+    var oldObjectCommand = [
+        arrow, _CHANGE_ATTR_, erase, angleNormal, angleV, angleS, angleBisector, area, circleNormal, circle3, circler,
+        conicSection5, distance, fixedSegment, hline, intersectionCommand, lineNormal, lineSymmetry, midpointCommand, parallelNormal,
+        sketchNormal, perpendicularNormal, pointCommand, polygonCommand, regularPolygon, segmentNormal, segmentSymmetry, symmetryNormal,
+        translationCommand, vectorNormal,functionPlot,sketchPolynomial,textCommand, angleSixty,boundingBox,
+    ];
+
+
+    const objectCommand = {
+        arrow: arrow,
+        erase: erase,
+        angleNormal: angleNormal,
+        angleV: angleV,
+        angleS: angleS,
+        angleBisector: angleBisector,
+        area: area,
+        circleNormal: circleNormal,
+        circle3: circle3,
+        circler: circler,
+        conicSection5: conicSection5,
+        distance: distance,
+        fixedSegment: fixedSegment,
+        hline: hline,
+        intersectionCommand: intersectionCommand,
+        lineNormal: lineNormal,
+        lineSymmetry: lineSymmetry,
+        midpointCommand: midpointCommand,
+        parallelNormal: parallelNormal,
+        sketchNormal: sketchNormal,
+        perpendicularNormal: perpendicularNormal,
+        pointCommand: pointCommand,
+        polygonCommand: polygonCommand,
+        regularPolygon: regularPolygon,
+        segmentNormal: segmentNormal,
+        segmentSymmetry: segmentSymmetry,
+        symmetryNormal: symmetryNormal,
+        translationCommand: translationCommand,
+        vectorNormal: vectorNormal,
+        functionPlot: functionPlot,
+        sketchPolynomial: sketchPolynomial,
+        textCommand : textCommand,
+        angleSixty: angleSixty,
+        boundingBox:boundingBox,
+    };
+
+    jsxgraphauthor.addCommands("icons", oldObjectCommand);
+    jsxgraphauthor.magnetSize = 0.5; // magnet size = 2
+    var updatedBoardLength = jsxgraphauthor.board.objectsList.length;
+    backwardIndex.push(updatedBoardLength);
+
+    //adds functionality to each command
+    for (const [key, value] of Object.entries(objectCommand)) {
+
+        $("#".concat(key)).on('click', function () {
+            $('li').removeClass('active');
+            $(this).addClass('active');
+            jsxgraphauthor.changeCommands(value);
+        })
+        document.getElementById(key.concat("TEXT")).innerHTML = JSXGraphAuthor.naming[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all dropdown points for "draw"
+    for (const [key, value] of Object.entries(JSXGraphAuthor.drawDropdown[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.drawDropdown[jsxgraphauthor.language][key];
+    }
+    //Adds text to all dropdown points for "tools"
+    for (const [key, value] of Object.entries(JSXGraphAuthor.toolsDropdown[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.toolsDropdown[jsxgraphauthor.language][key];
+    }
+    //Adds text to all dropdown points for "help"
+    for (const [key, value] of Object.entries(JSXGraphAuthor.helpDropdown[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.helpDropdown[jsxgraphauthor.language][key];
+    }
+    //Adds text to all major dropdown points
+    for (const [key, value] of Object.entries(JSXGraphAuthor.dropdown[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.dropdown[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all language dropdown text
+    for (const [key, value] of Object.entries(JSXGraphAuthor.language[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.language[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all text elements in showCodeModal
+    for (const [key, value] of Object.entries(JSXGraphAuthor.modalShow[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.modalShow[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all text elements in textModal
+    for (const [key, value] of Object.entries(JSXGraphAuthor.textModal[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.textModal[jsxgraphauthor.language][key];
+    }
+    //Adds text to all text elements in anglevModal
+    for (const [key, value] of Object.entries(JSXGraphAuthor.anglevModal[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.anglevModal[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all text elements in fixedSegmentModal
+    for (const [key, value] of Object.entries(JSXGraphAuthor.fixedSegmentModal[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.fixedSegmentModal[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all text elements in circlerModal
+    for (const [key, value] of Object.entries(JSXGraphAuthor.circlerModal[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.circlerModal[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all text elements in functionModal
+    for (const [key, value] of Object.entries(JSXGraphAuthor.functionModal[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.functionModal[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all text elements in boundingBoxModal
+    for (const [key, value] of Object.entries(JSXGraphAuthor.boundingBoxModal[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.boundingBoxModal[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all text elements in angleRotation
+    for (const [key, value] of Object.entries(JSXGraphAuthor.angleRotation[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.angleRotation[jsxgraphauthor.language][key];
+    }
+
+    //Adds text to all text elements in regularPolygonModal
+    for (const [key, value] of Object.entries(JSXGraphAuthor.regularPolygonModal[jsxgraphauthor.language])) {
+        document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.regularPolygonModal[jsxgraphauthor.language][key];
+    }
+
+
+    document.getElementById("boundingBoxTEXT").innerHTML = JSXGraphAuthor.naming[jsxgraphauthor.language]["boundingBox"];
+
+    document.getElementById("showCodeTextModal").innerHTML = JXG.Dump.toJavaScript(jsxgraphauthor.board);
+    //document.getElementById("angleAnticlockwise").innerHTML = "Test";
+
+    //listener for changing language (radios)
+    $(document).ready(function() {
+        $(document).on('change', '.language-radio', function() {
+            // Get the selected value
+            var lan = $(this).val();
+            jsxgraphauthor.language = lan;
+            updateContentBasedOnLanguage(lan);
+        });
+    });
+
+    function updateContentBasedOnLanguage(language) {
+        
+        standardLanguage = "en";
+
+        //adds all name text to commands
+        for (const [key, value] of Object.entries(objectCommand)) {
+            try {
+                document.getElementById(key.concat("TEXT")).innerHTML = JSXGraphAuthor.naming[language][key];
+            } catch (exceptionLan) {
+                document.getElementById(key.concat("TEXT")).innerHTML = JSXGraphAuthor.naming[standardLanguage][key];
+            }
+        }
+
+
+        //adds all help text to commands
+        //looks for current mode and the matching key
+        var activeCommandKey;
+        //console.log(activeCommandKey)
+        for (const [key, value] of Object.entries(objectCommand)) {
+            if (value === jsxgraphauthor.active_command) {
+                activeCommandKey = key;
+                break;
+            }
+        }
+        //matches value of command to the value of the help.key
+        if (JSXGraphAuthor.help.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.help[language])) {
+                if(key === activeCommandKey) {
+                    document.getElementById("divhelp_" + jsxgraphauthor.id).innerHTML = JSXGraphAuthor.help[language][key];
+                }
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.help[standardLanguage])) {
+                if(key === activeCommandKey) {
+                    document.getElementById("divhelp_" + jsxgraphauthor.id).innerHTML = JSXGraphAuthor.help[standardLanguage][key];
+                }
+            }
+        }
+
+
+
+        //Adds text to all dropdown points for "draw"
+        if (JSXGraphAuthor.drawDropdown.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.drawDropdown[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.drawDropdown[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.drawDropdown[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.drawDropdown[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all dropdown points for "tools"
+        if (JSXGraphAuthor.toolsDropdown.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.toolsDropdown[jsxgraphauthor.language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.toolsDropdown[language][key];
+
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.toolsDropdown[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.toolsDropdown[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all dropdown points for "help"
+        if (JSXGraphAuthor.helpDropdown.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.helpDropdown[jsxgraphauthor.language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.helpDropdown[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.dropdown[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.helpDropdown[standardLanguage][key];
+            }
+        }
+
+
+        //Adds text to all major dropdown points
+        if (JSXGraphAuthor.dropdown.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.dropdown[jsxgraphauthor.language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.dropdown[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.dropdown[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.dropdown[standardLanguage][key];
+            }
+        }
+
+        //Adds all language dropdown text
+        if (JSXGraphAuthor.language.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.language[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.language[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.language[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.language[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all text elements in showCodeModal
+        if (JSXGraphAuthor.modalShow.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.modalShow[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.modalShow[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.modalShow[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.modalShow[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all text elements in textModal
+        if (JSXGraphAuthor.textModal.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.textModal[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.textModal[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.textModal[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.textModal[standardLanguage][key];
+            }
+        }
+
+
+        //Adds text to all text elements in anglevModal
+        if (JSXGraphAuthor.anglevModal.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.anglevModal[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.anglevModal[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.anglevModal[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.anglevModal[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all text elements in fixedSegmentModal
+        if (JSXGraphAuthor.fixedSegmentModal.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.fixedSegmentModal[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.fixedSegmentModal[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.fixedSegmentModal[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.fixedSegmentModal[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all text elements in circlerModal
+        if (JSXGraphAuthor.circlerModal.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.circlerModal[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.circlerModal[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.circlerModal[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.circlerModal[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all text elements in functionModal
+        if (JSXGraphAuthor.functionModal.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.functionModal[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.functionModal[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.functionModal[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.functionModal[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all text elements in boundingBoxModal
+        if (JSXGraphAuthor.boundingBoxModal.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.boundingBoxModal[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.boundingBoxModal[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.boundingBoxModal[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.boundingBoxModal[standardLanguage][key];
+            }
+        }
+
+        //Adds text to all text elements in angleRotation
+        if (JSXGraphAuthor.angleRotation.hasOwnProperty(language)) {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.angleRotation[language])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.angleRotation[language][key];
+            }
+        } else {
+            for (const [key, value] of Object.entries(JSXGraphAuthor.angleRotation[standardLanguage])) {
+                document.getElementById(key.concat("Text")).innerHTML = JSXGraphAuthor.angleRotation[standardLanguage][key];
+            }
+        }
+
+
+
+
+
+    }
+
+    //listener for downloadText, use blob element
+    $('#_DOWNLOAD_TEXT_').on('click', function downloadText() {
+            var text = JXG.Dump.toJavaScript(jsxgraphauthor.board);
+            var blob = new Blob([text], { type: 'text/plain' });
+            var url = URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.href = url;
+            link.download = 'jsxgraph_text.js';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+        }
+    );
+
+    //listener for downloadSVG, use blob element and svg type
+    $('#_DOWNLOAD_SVG_').on('click',   function donwloadSVG() {
+            var svg = new XMLSerializer().serializeToString(jsxgraphauthor.board.renderer.svgRoot);
+            //get svg source.
+            var blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+
+            var downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = "image.svg";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    );
+
+    //listener for downloadPNG, create canvas and encode as png
+    $('#_DOWNLOAD_PNG_').on('click',   function donwloadPNG() {
+            var svg = new XMLSerializer().serializeToString(jsxgraphauthor.board.renderer.svgRoot);
+            var img = new Image();
+            img.onload = function() {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+                var dataURL = canvas.toDataURL("image/png");
+                var downloadLink = document.createElement("a");
+                downloadLink.href = dataURL;
+                downloadLink.download = "image.png";
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            };
+            //Make Base64-encoded ASCII string
+            img.src = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
+        }
+    );
+
+    
+
+    // listener and functionality of backwardButton
+    $('#_BACK_').on('click', function backward() {
+            if(backwardIndex.length !== 0) {
+                var indexDelete = backwardIndex.pop();
+                var start = indexDelete[0];
+                var end = indexDelete[1];
+
+                //check if special case and work with 3rd value
+                if (indexDelete.length === 3) {
+                    //delete additional constructs
+                    for ( let i=1; i <= indexDelete[2]; i++ ) {
+                        if(backwardIndex.length === 0) {
+                            break;
+                        }
+                        //catches error if start>=end
+                        if (start >= end ) {
+                            indexDelete = backwardIndex.pop();
+                            start = indexDelete[0];
+                            end = indexDelete[1];
+                        }
+                        else {
+                            //normal case, deletes range (start,end)
+                            while (end !== start) {
+                                jsxgraphauthor.board.removeObject(jsxgraphauthor.board.objectsList[end - 1]);
+                                end--;
+                            }
+                            indexDelete = backwardIndex.pop();
+                            start = indexDelete[0];
+                            end = indexDelete[1];
+                        }
+                    }
+                }
+                else if (indexDelete.length === 4) {
+                    while (indexDelete.length === 4) {
+                        if (indexDelete[3] === "regularPolygon") {
+                            //normal case, deletes range (start,end)
+                            while (end !== start) {
+                                jsxgraphauthor.board.removeObject(jsxgraphauthor.board.objectsList[end - 1]);
+                                end--;
+                                //console.log("Index der gelöscht wird",indexDelete)
+                            }
+
+                        }
+                        indexDelete = backwardIndex.pop();
+                        start = indexDelete[0];
+                        end = indexDelete[1];
+                    }
+                }
+
+                //normal case
+                    //catches error if start>=end
+                    while (start >= end) {
+                        indexDelete = backwardIndex.pop();
+                        start = indexDelete[0];
+                        end = indexDelete[1];
+                        //console.log("Index der gelöscht wird",indexDelete)
+                    }
+                    //normal case, deletes range (start,end)
+                    while (end !== start) {
+                        jsxgraphauthor.board.removeObject(jsxgraphauthor.board.objectsList[end - 1]);
+                        end--;
+                        //console.log("Index der gelöscht wird",indexDelete)
+                    }
+            }
+    });
+
+</script>
+
+
+</div>
+</body>
+</html>
