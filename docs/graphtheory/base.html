@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Graph theory with JSXGraph</title>
+    <link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css' />
+    <script src='https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js' type='text/javascript'></script>
+    <script type="text/javascript" src="js/graphbase.js"></script>
+    <script type="text/javascript" src="js/example_graphs.js"></script>
+
+    <link rel='stylesheet' type='text/css' href='../resources/style.css'/>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Random placement of simple graphs</h1>
+        <div id="jxgbox" class="jxgbox"
+            style="width:800px; height:800px; margin-left:auto; margin-right:auto; margin-top:30px; margin-bottom: 30px;">
+        </div>
+        <script type="text/javascript">
+            var board = JXG.JSXGraph.initBoard('jxgbox', {
+                boundingbox: [-10, 10, 10, -10],
+                keepaspectratio: true,
+                axis: true
+            });
+
+            var g = new Graph(board, examples[1], {
+                format: 'dimacs',
+                vertices: {
+                    size: 12,
+                    opacity: 0.8,
+                    label: {
+                        fontSize: 16,
+                        strokeColor: 'white',
+                        cssStyle: 'font-weight:bold',
+
+                        offset: [0, 0],
+                        anchorX: 'middle',
+                        anchorY: 'middle'
+                    }
+                },
+                edges: {
+                    strokeColor: '#676767'
+                }
+            });
+        </script>
+    </div>
+
+</body>
+
+</html>
