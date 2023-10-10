@@ -1,3 +1,27 @@
+<!--
+Copyright 2023 Carsten Miller,
+               Andreas Walter,
+               Alfred Wassermann,
+
+MIT License: https://github.com/jsxgraph/jsxgraph/blob/master/LICENSE.MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the “Software”), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, 
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is 
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or 
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
+
+-->
 <!doctype html>
 <html>
 
@@ -21,8 +45,11 @@
 
 <body>
     <h1>Force directed placement of simple graphs</h1>
+    <p><a href="index.html">back</a></p>
     <div class="outer-container">
-        <div id="jxgbox" class="jxgbox" style="width:800px; height:800px; margin-left:auto; margin-right:auto; margin-top:30px; margin-bottom: 30px;"></div>
+        <div id="jxgbox" class="jxgbox"
+            style="width:800px; height:800px; margin-left:auto; margin-right:auto; margin-top:30px; margin-bottom: 30px;">
+        </div>
         <div class="condition-input">
             <form id="condition-form">
                 <label for="example">Example:</label>
@@ -40,55 +67,65 @@
                     <option value="colored">Colored Placing</option>
                 </select>
                 <label for="boundingbox">Boundingbox:</label>
-                <div class="boundinbox-input-div">
-                    <input type="number" value="-10" step="0.5" id="boundingbox-left"  placeholder="BoundaryBox" class="boundingbox-input">
-                    <input type="number" value="10" step="0.5" id="boundingbox-top"  placeholder="BoundaryBox" class="boundingbox-input">
-                    <input type="number" value="10" step="0.5" id="boundingbox-right"  placeholder="BoundaryBox" class="boundingbox-input">
-                    <input type="number" value="-10" step="0.5" id="boundingbox-bottom"  placeholder="BoundaryBox" class="boundingbox-input">
+                <div class="boundingbox-input-div">
+                    <input type="number" value="-10" step="0.5" id="boundingbox-left" placeholder="BoundaryBox"
+                        class="boundingbox-input">
+                    <input type="number" value="10" step="0.5" id="boundingbox-top" placeholder="BoundaryBox"
+                        class="boundingbox-input">
+                    <input type="number" value="10" step="0.5" id="boundingbox-right" placeholder="BoundaryBox"
+                        class="boundingbox-input">
+                    <input type="number" value="-10" step="0.5" id="boundingbox-bottom" placeholder="BoundaryBox"
+                        class="boundingbox-input">
                 </div>
-                
-                    <div id="force-directed-fields" style="display: block;">
 
-                        <div class="checkbox-container">
-                            <label for="adjust-boundingbox" class="checkbox-label">Adjust BoundingBox:</label>
-                            <input type="checkbox" id="adjust-boundingbox" name="adjust-boundingbox" class="checkbox">
-                        </div>
+                <div id="force-directed-fields" style="display: block;">
 
-                        <label for="duration">Duration:</label>
-                        <input type="range" id="duration" name="duration" min="0" max="160" value="60" class="slider">
+                    <div class="checkbox-container">
+                        <label for="adjust-boundingbox" class="checkbox-label">Adjust BoundingBox:</label>
+                        <input type="checkbox" id="adjust-boundingbox" name="adjust-boundingbox" class="checkbox">
+                    </div>
+
+                    <label for="duration">Duration:</label>
+                    <input type="range" id="duration" name="duration" min="0" max="160" value="60" class="slider">
 
 
-                        <label for="cooldown">Cooldown:</label>
-                        <input type="number" value="0.99" step="0.005" id="cooldown" name="cooldown" placeholder="Cooldown" class="input-field">
-                    
-                        <label for="max-iterations">Max Iterations:</label>
-                        <input type="number" value="300" step="10" id="max-iterations" name="max-repetitions" placeholder="Max Repetitions" class="input-field">
-                    
-                        <label for="min-force-delta">Min Force Delta:</label>
-                        <input type="number" value="0.01" step="0.001" id="min-force-delta" name="min-force-delta" placeholder="Min Force Delta" class="input-field">
-                    
-                        <label for="optimal-length">Optimal Length:</label>
-                        <input type="number" value="3" step="1" id="optimal-length" name="optimal-length" placeholder="Optimal Length" class="input-field">
+                    <label for="cooldown">Cooldown:</label>
+                    <input type="number" value="0.99" step="0.005" id="cooldown" name="cooldown" placeholder="Cooldown"
+                        class="input-field">
 
-                        
+                    <label for="max-iterations">Max Iterations:</label>
+                    <input type="number" value="300" step="10" id="max-iterations" name="max-repetitions"
+                        placeholder="Max Repetitions" class="input-field">
+
+                    <label for="min-force-delta">Min Force Delta:</label>
+                    <input type="number" value="0.01" step="0.001" id="min-force-delta" name="min-force-delta"
+                        placeholder="Min Force Delta" class="input-field">
+
+                    <label for="optimal-length">Optimal Length:</label>
+                    <input type="number" value="3" step="1" id="optimal-length" name="optimal-length"
+                        placeholder="Optimal Length" class="input-field">
+
+
 
                 </div>
                 <div id="eades-fields" style="display: block;">
                     <label for="constant-repulsive">Constant Repulsive:</label>
-                    <input type="number" value="2" step="0.1" id="constant-repulsive" name="constant-repulsive" placeholder="Constant Repulsive" class="input-field">
+                    <input type="number" value="2" step="0.1" id="constant-repulsive" name="constant-repulsive"
+                        placeholder="Constant Repulsive" class="input-field">
 
                     <label for="constant-spring">Constant Spring:</label>
-                    <input type="number" value="1" step="0.1" id="constant-spring" name="constant-spring" placeholder="Constant Spring" class="input-field">
+                    <input type="number" value="1" step="0.1" id="constant-spring" name="constant-spring"
+                        placeholder="Constant Spring" class="input-field">
                 </div>
 
 
                 <button type="submit" id="start-algorithm" class="submit-button">Start Algorithm</button>
-              </form>
+            </form>
         </div>
     </div>
     <script type="text/javascript">
         var board = JXG.JSXGraph.initBoard('jxgbox', {
-            boundingbox:[-10, 10, 10, -10],
+            boundingbox: [-10, 10, 10, -10],
             keepaspectratio: true,
             axis: true
         });
@@ -119,7 +156,7 @@
                     fontSize: 16,
                     strokeColor: 'white',
                     cssStyle: 'font-weight:bold',
-                
+
 
                     offset: [0, 0],
                     anchorX: 'middle',
@@ -138,68 +175,68 @@
             option.value = "bipartite";
             option.text = "Bipartite Placing";
             algorithmSelect.add(option);
-        } 
+        }
         else {
             document.getElementById("bipartit").style.display = "none";
             let optionToRemove = algorithmSelect.querySelector("option[value='bipartite']");
-            if(optionToRemove){
+            if (optionToRemove) {
                 algorithmSelect.removeChild(optionToRemove);
                 algorithmSelect.dispatchEvent(new Event('change'));
-            }        
+            }
         }
 
         //Listen to change of example
         exampleSelect.addEventListener("change", function () {
             board.removeObject(g.vertices);
             g = new Graph(board, examples[exampleSelect.value].dimacs, {
-            format: 'dimacs',
-            vertices: {
-                size: 12,
-                opacity: 0.8,
-                colors: ['black', 'red', 'blue'],
+                format: 'dimacs',
+                vertices: {
+                    size: 12,
+                    opacity: 0.8,
+                    colors: ['black', 'red', 'blue'],
 
-                label: {
-                    fontSize: 16,
-                    strokeColor: 'white',
-                    cssStyle: 'font-weight:bold',
+                    label: {
+                        fontSize: 16,
+                        strokeColor: 'white',
+                        cssStyle: 'font-weight:bold',
 
-                    offset: [0, 0],
-                    anchorX: 'middle',
-                    anchorY: 'middle'
+                        offset: [0, 0],
+                        anchorX: 'middle',
+                        anchorY: 'middle'
+                    }
+                },
+                edges: {
+                    strokeColor: '#676767'
                 }
-            },
-            edges: {
-                strokeColor: '#676767'
-            }
-        });
+            });
 
 
-        //add badge and bipartite placing algorithm after changing graph
-        if (g.isBipartite()) {
-            console.log("Bipartit")
-            document.getElementById("bipartit").style.display = "block";
-            let optionToRemove = algorithmSelect.querySelector("option[value='bipartite']");
-            if(!optionToRemove){
-            var option = document.createElement('option');
-            option.value = "bipartite";
-            option.text = "Bipartite Placing";
-            algorithmSelect.add(option);
+            //add badge and bipartite placing algorithm after changing graph
+            if (g.isBipartite()) {
+                console.log("Bipartit")
+                document.getElementById("bipartit").style.display = "block";
+                let optionToRemove = algorithmSelect.querySelector("option[value='bipartite']");
+                if (!optionToRemove) {
+                    var option = document.createElement('option');
+                    option.value = "bipartite";
+                    option.text = "Bipartite Placing";
+                    algorithmSelect.add(option);
+                }
             }
-        } 
-        else {
-            document.getElementById("bipartit").style.display = "none";
-            let optionToRemove = algorithmSelect.querySelector("option[value='bipartite']");
-            if(optionToRemove){
-                algorithmSelect.removeChild(optionToRemove);
-                algorithmSelect.dispatchEvent(new Event('change'));
-            }        
-            }        
+            else {
+                document.getElementById("bipartit").style.display = "none";
+                let optionToRemove = algorithmSelect.querySelector("option[value='bipartite']");
+                if (optionToRemove) {
+                    algorithmSelect.removeChild(optionToRemove);
+                    algorithmSelect.dispatchEvent(new Event('change'));
+                }
+            }
         });
 
 
         document.getElementById("optimal-length").value = g.calculateOptimalLength();
-        
-        
+
+
         var algorithmSelect = document.getElementById("algorithm");
         var eadesFields = document.getElementById("eades-fields");
         var forceDirectedFields = document.getElementById("force-directed-fields");
@@ -234,8 +271,8 @@
             }
         });
 
-        document.getElementById("condition-form").addEventListener("submit", function(event) {
-            
+        document.getElementById("condition-form").addEventListener("submit", function (event) {
+
             var algorithm, adjustBoundingBox, cooldown, maxIterations, minForceDelta, optimalLength, constantRepulsiveForce, constantSpring, stepDuration, options;
 
             event.preventDefault();
@@ -257,7 +294,7 @@
                 parseFloat(document.getElementById("boundingbox-bottom").value)
             ];
 
-            
+
 
             if (algorithm === "fruchterman-reingold") {
                 document.getElementById("start-algorithm").disabled = true;
@@ -270,7 +307,7 @@
                     boundingBox,
                     stepDuration
                 }
-                
+
                 g.runFruchtermannReingold(options).then(() => {
                     if (adjustBoundingBox) board.setBoundingBox(g.getGraphArea().map((x, index) => {
                         if (index == 0 || index == 3) return x - Math.abs(x * 0.1);
@@ -299,7 +336,7 @@
                     }));
                     document.getElementById("start-algorithm").disabled = false;
                 });
-                
+
             } else if (algorithm === "circle") {
                 g.orderCircular(boundingBox);
             } else if (algorithm === "bipartite") {
@@ -312,4 +349,5 @@
 
     </script>
 </body>
+
 </html>

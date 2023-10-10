@@ -1,6 +1,8 @@
 var examples = [];
 
-examples.push(`
+examples.push({
+    name: 'v=4,e=5',
+    dimacs: `
     c An example graph.
     p edge 4 5
     n 1 1
@@ -8,9 +10,11 @@ examples.push(`
     e 1 3
     e 1 4
     e 2 3
-    e 2 4`);
+    e 2 4`});
 
-examples.push(`c FILE: myciel3.col
+examples.push({
+    name: 'triangle free, myciel3.col',
+    dimacs: `c FILE: myciel3.col
 c https://mat.gsia.cmu.edu/COLOR/instances.html
 c SOURCE: Michael Trick (trick@cmu.edu)
 c DESCRIPTION: Graph based on Mycielski transformation.
@@ -36,9 +40,11 @@ e 6 11
 e 7 11
 e 8 11
 e 9 11
-e 10 11`);
+e 10 11`});
 
-examples.push(`c FILE: myciel6.col
+examples.push({
+    name: 'triangle free myciel6.col',
+    dimacs: `c FILE: myciel6.col
 c https://mat.gsia.cmu.edu/COLOR/instances.html
 c SOURCE: Michael Trick (trick@cmu.edu)
 c DESCRIPTION: Graph based on Mycielski transformation.
@@ -799,9 +805,11 @@ e 90 95
 e 91 95
 e 92 95
 e 93 95
-e 94 95`);
+e 94 95`});
 
-examples.push(`c FILE: queen5_5.col
+examples.push({
+    name: 'queen5_5.col',
+    dimacs: `c FILE: queen5_5.col
 c Translated from Stanford GraphBase File: queen5_5.sgb
 c Stanford GraphBase ID: gunion(board(5,5,0,0,-1,0,0),board(5,5,0,0,-2,0,0),0,0)
 p edge 25 320
@@ -1124,9 +1132,11 @@ e 25 13
 e 25 10
 e 25 7
 e 25 5
-e 25 1`);
+e 25 1`});
 
-examples.push(`c FILE: myciel4.col
+examples.push({
+    name: 'triangle free, myciel4.col',
+    dimacs: `c FILE: myciel4.col
 c SOURCE: Michael Trick (trick@cmu.edu)
 c DESCRIPTION: Graph based on Mycielski transformation.
 c              Triangle free (clique number 2) but increasing
@@ -1202,9 +1212,11 @@ e 18 23
 e 19 23
 e 20 23
 e 21 23
-e 22 23`);
+e 22 23`});
 
-examples.push(`
+examples.push({
+    name: 'Sylvester graph',
+    dimacs: `
     c Sylvester graph
     p edge 36 90
     e 1 2
@@ -1297,4 +1309,4 @@ examples.push(`
     e 30 33
     e 33 34
     e 35 36
-`)
+`});

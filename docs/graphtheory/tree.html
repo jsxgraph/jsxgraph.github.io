@@ -1,3 +1,27 @@
+<!--
+Copyright 2023 Carsten Miller,
+               Andreas Walter,
+               Alfred Wassermann,
+
+MIT License: https://github.com/jsxgraph/jsxgraph/blob/master/LICENSE.MIT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the “Software”), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, 
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is 
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or 
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
+
+-->
 <!doctype html>
 <html>
 
@@ -5,28 +29,83 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Graph theory with JSXGraph</title>
     <link rel='stylesheet' type='text/css' href='../resources/style.css' />
+    <link rel="stylesheet" href="css/force_directed.css">
     <link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css' />
     <script src='https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js' type='text/javascript'></script>
     <script type="text/javascript" src="js/graphbase.js"></script>
     <script type="text/javascript" src="js/example_graphs3.js"></script>
 
     <script type="text/javascript" src="js/tree/tree.js"></script>
+
 </head>
 
 <body>
-    <div class="container">
-        <h1>Tree placement</h1>
+    <h1>Tree placement</h1>
+    <p><a href="index.html">back</a></p>
+    <div class="outer-container">
         <div id="jxgbox" class="jxgbox"
             style="width:800px; height:800px; margin-left:auto; margin-right:auto; margin-top:30px; margin-bottom: 30px;">
         </div>
-        <script type="text/javascript">
-            var board = JXG.JSXGraph.initBoard('jxgbox', {
-                boundingbox: [-10, 10, 10, -10],
-                keepaspectratio: true,
-                axis: true
-            });
+        <div class="condition-input">
+            <label for="example">Example:</label>
+            <select id="example" name="example" class="input-field">
+            </select>
+            <label for="style">Style:</label>
+            <select id="style" name="style" class="input-field">
+                <option>vertical</option>
+                <option>horizontal</option>
+                <option>concentric</option>
+            </select>
+            <label for="spread">Spread:</label>
+            <select id="spread" name="spread" class="input-field">
+                <option>min</option>
+                <option>max</option>
+            </select>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-10, 10, 10, -10],
+            keepaspectratio: true,
+            axis: true
+        });
 
-            var g1 = new Graph(board, examples[0], {
+        //Example Selector
+        var exampleSelect = document.getElementById('example');
+        for (var i = 0; i < examples.length; i++) {
+            var option = document.createElement('option');
+            option.value = i;
+            option.text = examples[i].name;
+            exampleSelect.add(option);
+        }
+        exampleSelect.value = 0;
+
+        var g1 = new Graph(board, examples[exampleSelect.value].dimacs, {
+            format: 'dimacs',
+            vertices: {
+                size: 12,
+                opacity: 0.8,
+                label: {
+                    fontSize: 16,
+                    strokeColor: 'white',
+                    cssStyle: 'font-weight:bold',
+
+                    offset: [0, 0],
+                    anchorX: 'middle',
+                    anchorY: 'middle'
+                }
+            },
+            edges: {
+                strokeColor: '#676767'
+            }
+        });
+        var style = document.getElementById('style').value;
+        var spread = document.getElementById('spread').value;
+        g1.displayAsTree([-5, 5, 5, -5], style, spread);
+
+        var displayGraph = function() {
+            board.removeObject(g1.vertices);
+            g1 = new Graph(board, examples[exampleSelect.value].dimacs, {
                 format: 'dimacs',
                 vertices: {
                     size: 12,
@@ -45,34 +124,16 @@
                     strokeColor: '#676767'
                 }
             });
+            style = document.getElementById('style').value;
+            spread = document.getElementById('spread').value;
+            g1.displayAsTree([-5, 5, 5, -5], style, spread);
+        };
 
+        exampleSelect.addEventListener("change", displayGraph);
+        document.getElementById('style').addEventListener("change", displayGraph);
+        document.getElementById('spread').addEventListener("change", displayGraph);
 
-            /**
-             *  var g2 = new Graph(board, examples[0], {
-                 format: 'dimacs',
-                 vertices: {
-                     size: 12,
-                     opacity: 0.8,
-                     label: {
-                         fontSize: 16,
-                         strokeColor: 'white',
-                         cssStyle: 'font-weight:bold',
-     
-                         offset: [0, 0],
-                         anchorX: 'middle',
-                         anchorY: 'middle'
-                     }
-                 },
-                 edges: {
-                     strokeColor: '#676767'
-                 }
-             });
-             */
-
-
-            g1.displayAsTree([-5, 5, 5, -5], 'vertical', "max");
-        </script>
-    </div>
+    </script>
 </body>
 
 </html>
